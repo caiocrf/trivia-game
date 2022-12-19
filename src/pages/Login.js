@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getTokenApi, getLoginUser } from '../redux/actions/userActions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Login extends Component {
@@ -31,9 +32,13 @@ class Login extends Component {
   };
 
   RequestTokenApi = async () => {
+    const { dispatch } = this.props;
     const api = ('https://opentdb.com/api_token.php?command=request');
     const response = await fetch(api);
     const request = await response.json();
+
+    dispatch(getTokenApi(request.token));
+    dispatch(getLoginUser(this.state));
     localStorage.setItem('token', request.token);
   };
 
@@ -53,7 +58,7 @@ class Login extends Component {
             data-testid="input-player-name"
             name="name"
             type="text"
-            placeholder="Nome"
+            placeholder="SEU NOME"
             onChange={ this.handleChange }
             value={ name }
           />
@@ -63,7 +68,7 @@ class Login extends Component {
             data-testid="input-gravatar-email"
             name="email"
             type="email"
-            placeholder="Email"
+            placeholder="SEU EMAIL"
             onChange={ this.handleChange }
             value={ email }
           />
@@ -93,6 +98,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
