@@ -2,8 +2,8 @@
   background-color: rgb(20, 94, 206);
   border: 3px solid red;
   color: rgb(242, 235, 235);
-  margin-top: 5px;
   height: 50px;
+  margin-top: 5px;
   padding: 5px;
 }
 
@@ -11,8 +11,8 @@
   background-color: rgb(20, 94, 206);
   border: 3px solid rgb(6, 240, 15);
   color: rgb(242, 235, 235);
-  margin-top: 5px;
   height: 50px;
+  margin-top: 5px;
   padding: 5px;
 }
 
@@ -26,8 +26,8 @@
 
 .buttonNext {
   background-color: #060a09;
+  color: white;
   height: 40px;
   margin-top: 1%;
-  color: white;
   font-size: 21px;
 }
