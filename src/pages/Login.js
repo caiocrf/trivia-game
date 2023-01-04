@@ -1,14 +1,29 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { getTokenApi, getLoginUser } from '../redux/actions/userActions';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import PropTypes from 'prop-types';
+import { getTokenUser, getLoginUser } from '../redux/actions';
 
-class Login extends Component {
+class Login extends React.Component {
   state = {
-    name: '',
     email: '',
+    name: '',
     isButtonDisable: true,
+  };
+
+  redirectSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
+  handleToGame = async () => {
+    const { dispatch, history } = this.props;
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const request = await response.json();
+    dispatch(getLoginUser(this.state));
+    dispatch(getTokenUser(request.token));
+
+    localStorage.setItem('token', request.token);
+    history.push('/game');
   };
 
   buttonValidation = () => {
@@ -28,79 +43,59 @@ class Login extends Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
-    }, this.buttonValidation);
-  };
-
-  RequestTokenApi = async () => {
-    const { dispatch } = this.props;
-    const api = ('https://opentdb.com/api_token.php?command=request');
-    const response = await fetch(api);
-    const request = await response.json();
-
-    dispatch(getTokenApi(request.token));
-    dispatch(getLoginUser(this.state));
-    localStorage.setItem('token', request.token);
-  };
-
-  HandleToGame = async () => {
-    const { history } = this.props;
-    await this.RequestTokenApi();
-    history.push('/game');
+    }, () => this.buttonValidation());
   };
 
   render() {
-    const { name, email, isButtonDisable } = this.state;
-    const { history } = this.props;
+    const { isButtonDisable, name, email } = this.state;
     return (
-      <div className="container">
-        <label htmlFor="name">
-          <input
-            data-testid="input-player-name"
-            name="name"
-            type="text"
-            placeholder="Nome"
-            onChange={ this.handleChange }
-            value={ name }
-          />
-        </label>
-        <label htmlFor="email">
+      <div>
+        <label htmlFor="Email">
           <input
             data-testid="input-gravatar-email"
-            name="email"
+            value={ email }
             type="email"
+            name="email"
             placeholder="Email"
             onChange={ this.handleChange }
-            value={ email }
           />
         </label>
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ isButtonDisable }
-          onClick={ this.HandleToGame }
-          className="btn btn-primary"
-        >
-          Play
+        <label htmlFor="Name">
+          <input
+            value={ name }
+            data-testid="input-player-name"
+            name="name"
+            placeholder="Name"
+            onChange={ this.handleChange }
+          />
+        </label>
+        <div>
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ isButtonDisable }
+            onClick={ () => { this.handleToGame(); } }
+          >
+            Play
 
-        </button>
-
+          </button>
+        </div>
         <button
-          className="btn btn-primary"
           data-testid="btn-settings"
           type="button"
-          onClick={ () => history.push('/settings') }
+          onClick={ this.redirectSettings }
         >
-          Configurações
+          configurações
         </button>
+
       </div>
     );
   }
 }
 
 Login.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
 };
+
 export default connect()(Login);

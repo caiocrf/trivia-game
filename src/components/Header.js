@@ -1,38 +1,49 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { MD5 } from 'crypto-js';
+import PropTypes from 'prop-types';
+import MD5 from 'crypto-js/md5';
 
-class Header extends React.Component {
+class Header extends Component {
   render() {
-    const { score, name, gravatarEmail } = this.props;
+    const { name, score, gravatarEmail, redirectPage } = this.props;
     const emailUser = gravatarEmail;
     const emailHash = MD5(emailUser).toString();
     return (
-      <header>
+      <div>
         <div>
-          <p data-testid="header-player-name">{name}</p>
           <img
             data-testid="header-profile-picture"
             src={ `https://www.gravatar.com/avatar/${emailHash}` }
-            alt="Perfil"
+            alt="perfil"
           />
-          <p data-testid="header-score">{score}</p>
+          <p data-testid="header-player-name">{`User: ${name}`}</p>
         </div>
-      </header>
+        <div>
+          <p data-testid="header-score">{`Points: ${score}`}</p>
+        </div>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => redirectPage() }
+        >
+          configurações
+        </button>
+      </div>
     );
   }
 }
 
 Header.propTypes = {
-  gravatarEmail: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
+  redirectPage: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (globalState) => ({
-  gravatarEmail: globalState.player.gravatarEmail,
-  name: globalState.player.name,
-  score: globalState.player.score,
+const mapStateToProps = ({ player }) => ({
+  name: player.name,
+  gravatarEmail: player.gravatarEmail,
+  score: player.score,
 });
+
 export default connect(mapStateToProps)(Header);

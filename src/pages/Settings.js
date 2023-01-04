@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Settings extends Component {
+class Settings extends React.Component {
   render() {
     return (
       <div>
-        <h2
+        <p
           data-testid="settings-title"
         >
-          Settings
-
-        </h2>
+          Configurações
+        </p>
       </div>
     );
   }
