@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import { clearState } from '../redux/actions';
+// import { clearState } from '../redux/actions';
 
 class Feedback extends React.Component {
   feedbackMessage = () => {
@@ -18,8 +18,8 @@ class Feedback extends React.Component {
 
   playAgainUer = () => {
     const { history } = this.props;
+    // dispatch(clearState());
     history.push('/');
-    dispatch(clearState());
   };
 
   render() {
@@ -61,6 +61,7 @@ class Feedback extends React.Component {
   }
 }
 Feedback.propTypes = {
+  // dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
