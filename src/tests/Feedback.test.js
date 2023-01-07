@@ -1,4 +1,4 @@
-import mockFetchQuestions from "./mockFetch.js";
+import mockFetchQuestions from "./mockFetchQuestions";
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from "@testing-library/user-event";
 import { screen, waitFor } from "@testing-library/react";

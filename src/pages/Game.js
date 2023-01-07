@@ -98,12 +98,12 @@ class Game extends React.Component {
     }
     if (round > THREE_ASKS) {
       const { name, score, gravatarEmail, history } = this.props;
-      const someRanking = { name, gravatarEmail, score };
-      const rankingLC = JSON.parse(localStorage.getItem('ranking')) ?? [];
-      if (rankingLC !== []) {
-        localStorage.setItem('ranking', JSON.stringify([...rankingLC, someRanking]));
+      const InfoRanking = { name, gravatarEmail, score };
+      const getRanking = JSON.parse(localStorage.getItem('ranking')) ?? [];
+      if (getRanking !== []) {
+        localStorage.setItem('ranking', JSON.stringify([...getRanking, InfoRanking]));
       } else {
-        localStorage.setItem('ranking', JSON.stringify(someRanking));
+        localStorage.setItem('ranking', JSON.stringify(InfoRanking));
       }
       history.push('/feedback');
     }

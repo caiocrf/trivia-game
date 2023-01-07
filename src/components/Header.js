@@ -19,7 +19,7 @@ class Header extends Component {
           <p data-testid="header-player-name">{`User: ${name}`}</p>
         </div>
         <div>
-          <p data-testid="header-score">{`Points: ${score}`}</p>
+          <p data-testid="header-score">{score}</p>
         </div>
         <button
           type="button"

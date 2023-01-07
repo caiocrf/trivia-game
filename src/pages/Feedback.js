@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-// import { clearState } from '../redux/actions';
+import { clearState } from '../redux/actions';
 
 class Feedback extends React.Component {
   feedbackMessage = () => {
@@ -17,8 +17,8 @@ class Feedback extends React.Component {
   };
 
   playAgainUer = () => {
-    const { history } = this.props;
-    // dispatch(clearState());
+    const { history, dispatch } = this.props;
+    dispatch(clearState());
     history.push('/');
   };
 
@@ -49,6 +49,7 @@ class Feedback extends React.Component {
         >
           Play Again
         </button>
+
         <button
           data-testid="btn-ranking"
           type="button"
@@ -61,12 +62,13 @@ class Feedback extends React.Component {
   }
 }
 Feedback.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
+
 };
 const mapStateToProps = (globalState) => ({
   assertions: globalState.player.assertions,

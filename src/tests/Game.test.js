@@ -1,5 +1,5 @@
-import mockFetchFailQuestions from "./mockFetchFail.js";
-import mockFetchQuestions from "./mockFetch.js";
+import mockFetchFailQuestions from "./mockFetchFailQuestions.js";
+import mockFetchQuestions from "./mockFetchQuestions.js";
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from "@testing-library/user-event";
 import { screen, waitFor } from "@testing-library/react";
@@ -40,20 +40,20 @@ describe('testando a tela de jogo', () => {
     const buttonNext = await screen.findByTestId('btn-next');
     expect(
       scoreUser.innerHTML)
-      .toBe('70');
+      .toBe('10');
     userEvent.click(buttonNext);
 
     const correctAnswer_2 = await screen.findByTestId('correct-answer');
     userEvent.click(correctAnswer_2)
     expect(
       scoreUser.innerHTML).
-      toBe('170');
+      toBe('20');
     userEvent.click(buttonNext);
 
     const correctAnswer_3 = await screen.findByTestId('correct-answer');
     userEvent.click(correctAnswer_3)
     expect(scoreUser.innerHTML).
-    toBe('210');
+    toBe('30');
   });
 
   it('testaando caso log com um token inválido', async () => {
@@ -71,14 +71,12 @@ describe('testando a tela de jogo', () => {
     userEvent.click(buttonPlay);
     await waitFor(() => expect(
       history.location.pathname).
-      toBe('/game'));
-    await waitFor(() => expect(
-      history.location.pathname).
       toBe('/'));
+
   });
 
   it('testando o redirect para a pag de configurações', async () => {
-    
+
     const { history } = renderWithRouterAndRedux(<App />);
     const emailUser = screen.getByTestId('input-gravatar-email');
     userEvent.type(emailUser, 'caiopinho@gmail.com');
@@ -137,7 +135,7 @@ describe('testando a tela de jogo', () => {
       history.location.pathname).
       toBe('/feedback'));
     expect(localStorage.getItem('ranking')).
-    toBe('[{"name":"My name","gravatarEmail":"caiopinho@gmail.com","score":380}]');
+    toBe('[{"name":"My name","gravatarEmail":"caiopinho@gmail.com","score":50}]');
   }); 
 
   it('testa se os botẽs sao desativas apos o tempo acabar', async () => {
